@@ -1,0 +1,7 @@
+.vscode/
+.appdata/
+node_modules/
+.vercel/
+memories_app/build/
+memories_app/.dart_tool/
+*.log

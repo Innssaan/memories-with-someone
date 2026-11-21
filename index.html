@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="id" class="dark scroll-smooth">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Memories With Someone — Some moments deserve to stay forever</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/memories-logo.svg"/>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            cosmic: "#060B19",
+            surfaceLow: "#0E1321",
+            surfaceCard: "#161B2A",
+            surfaceHigh: "#242A39",
+            primary: "#3B82F6",
+            primaryLight: "#60A5FA",
+            primaryDim: "#ADC6FF",
+            accent: "#4EDEA3"
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'serif']
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    body {
+      background-color: #060B19;
+      color: #F8FAFC;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+    .glass-surface {
+      background: rgba(255, 255, 255, 0.035);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-surface-glow {
+      box-shadow: 0 12px 40px -10px rgba(0, 0, 0, 0.65), 0 0 28px rgba(59, 130, 246, 0.12);
+    }
+    .glass-border-glow:hover {
+      border-color: rgba(96, 165, 250, 0.35);
+      box-shadow: 0 0 24px rgba(59, 130, 246, 0.16);
+    }
+    .vintage-paper {
+      background: linear-gradient(145deg, rgba(24, 30, 48, 0.96), rgba(14, 19, 33, 0.96));
+      border: 1px solid rgba(245, 158, 11, 0.18);
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.25; transform: scale(0.85); }
+      50% { opacity: 0.95; transform: scale(1.2); }
+    }
+    .animate-twinkle {
+      animation: twinkle 4.5s infinite ease-in-out;
+    }
+    @keyframes meteor {
+      0% { transform: translate(0, 0) rotate(-35deg); opacity: 0; }
+      10% { opacity: 0.7; }
+      70% { opacity: 0.5; }
+      100% { transform: translate(-420px, 300px) rotate(-35deg); opacity: 0; }
+    }
+    .meteor-streak {
+      position: absolute;
+      width: 140px;
+      height: 1.5px;
+      background: linear-gradient(90deg, rgba(96, 165, 250, 0.9), rgba(59, 130, 246, 0.2), transparent);
+      border-radius: 9999px;
+      animation: meteor 8s infinite linear;
+      opacity: 0;
+    }
+    .heart-float {
+      animation: floatUp 1s ease-out forwards;
+    }
+    @keyframes floatUp {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-55px) scale(1.5); }
+    }
+    @media print {
+      body * { visibility: hidden; }
+      #letter-modal, #letter-modal * { visibility: visible; }
+      #letter-modal { position: absolute; left: 0; top: 0; background: white; color: black; }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-blue-600 selection:text-white">
+
+  <!-- Ambient Cosmic Starfield, Shooting Stars & Nebula Glow -->
+  <div class="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+    <div class="absolute -top-40 left-1/4 w-[750px] h-[750px] bg-blue-600/10 rounded-full blur-[160px]"></div>
+    <div class="absolute top-[38%] -right-40 w-[650px] h-[650px] bg-indigo-600/10 rounded-full blur-[150px]"></div>
+    <div class="absolute top-[75%] -left-40 w-[600px] h-[600px] bg-sky-500/8 rounded-full blur-[150px]"></div>
+
+    <!-- Subtle Shooting Stars (Blue Accent) -->
+    <div class="meteor-streak" style="top: 12%; right: 8%; animation-delay: 0s;"></div>
+    <div class="meteor-streak" style="top: 48%; right: 15%; animation-delay: 3.5s;"></div>
+    <div class="meteor-streak" style="top: 78%; right: 6%; animation-delay: 6.2s;"></div>
+
+    <!-- Twinkling Stars -->
+    <svg class="absolute inset-0 w-full h-full opacity-55 text-blue-200">
+      <circle cx="8%" cy="14%" r="1" class="animate-twinkle" style="animation-delay: 0s;"></circle>
+      <circle cx="24%" cy="28%" r="1.4" class="animate-twinkle" style="animation-delay: 1.1s;"></circle>
+      <circle cx="42%" cy="9%" r="1" class="animate-twinkle" style="animation-delay: 2.4s;"></circle>
+      <circle cx="67%" cy="19%" r="1.8" class="animate-twinkle" style="animation-delay: 0.7s;"></circle>
+      <circle cx="86%" cy="11%" r="1.2" class="animate-twinkle" style="animation-delay: 1.9s;"></circle>
+      <circle cx="14%" cy="56%" r="1.5" class="animate-twinkle" style="animation-delay: 2.2s;"></circle>
+      <circle cx="37%" cy="66%" r="1" class="animate-twinkle" style="animation-delay: 0.4s;"></circle>
+      <circle cx="59%" cy="77%" r="1.6" class="animate-twinkle" style="animation-delay: 3.1s;"></circle>
+      <circle cx="79%" cy="62%" r="1.2" class="animate-twinkle" style="animation-delay: 1.5s;"></circle>
+      <circle cx="91%" cy="86%" r="1.4" class="animate-twinkle" style="animation-delay: 2.8s;"></circle>
+    </svg>
+  </div>
+
+  <!-- Top Navigation Header -->
+  <header class="sticky top-0 z-40 px-4 md:px-10 py-3.5 glass-surface border-b border-white/10">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <!-- Brand Logo (Animated SVG with Blue Accent) -->
+      <a href="#home" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-full overflow-hidden shadow-[0_0_20px_rgba(59,130,246,0.35)] group-hover:scale-105 transition-transform">
+          <img src="./assets/memories-logo.svg" alt="Memories With Someone Logo" class="w-full h-full object-contain"/>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-bold text-base md:text-lg tracking-tight text-white">Memories With Someone</span>
+          <span class="text-[11px] text-blue-400/90 font-medium">Personal Archive</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden lg:flex items-center gap-1 bg-white/5 p-1 rounded-full border border-white/10 backdrop-blur-xl">
+        <a href="#home" class="px-4 py-1.5 text-xs font-medium text-white hover:text-blue-300 rounded-full transition-colors hover:bg-white/5">Beranda</a>
+        <a href="#featured" class="px-4 py-1.5 text-xs font-medium text-slate-300 hover:text-blue-300 rounded-full transition-colors hover:bg-white/5">Unggulan</a>
+        <a href="#timeline" class="px-4 py-1.5 text-xs font-medium text-slate-300 hover:text-blue-300 rounded-full transition-colors hover:bg-white/5">Linimasa</a>
+        <a href="#letters" class="px-4 py-1.5 text-xs font-medium text-slate-300 hover:text-blue-300 rounded-full transition-colors hover:bg-white/5">Surat</a>
+        <a href="#music" class="px-4 py-1.5 text-xs font-medium text-slate-300 hover:text-blue-300 rounded-full transition-colors hover:bg-white/5">Musik</a>
+        <a href="#gallery" class="px-4 py-1.5 text-xs font-medium text-slate-300 hover:text-blue-300 rounded-full transition-colors hover:bg-white/5">Galeri</a>
+        <a href="#about" class="px-4 py-1.5 text-xs font-medium text-slate-300 hover:text-blue-300 rounded-full transition-colors hover:bg-white/5">Tentang</a>
+      </nav>
+
+      <!-- Right Header Controls -->
+      <div class="flex items-center gap-2.5">
+        <button id="ambient-btn" onclick="toggleAmbient()" class="px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 text-xs font-medium flex items-center gap-1.5 transition-all" title="Nyalakan Suara Ambient">
+          <span class="material-symbols-outlined text-[18px] text-blue-400" id="ambient-icon">graphic_eq</span>
+          <span class="hidden sm:inline" id="ambient-label">Ambient</span>
+        </button>
+
+        <!-- Mobile Menu Toggle -->
+        <button onclick="toggleMobileMenu()" class="lg:hidden w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-200">
+          <span class="material-symbols-outlined text-[20px]">menu</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown Navigation -->
+    <div id="mobile-nav" class="hidden lg:hidden mt-3 pt-3 border-t border-white/10 flex flex-wrap gap-2 justify-center">
+      <a href="#home" onclick="toggleMobileMenu()" class="px-3 py-1.5 text-xs text-slate-200 rounded-full bg-white/5">Beranda</a>
+      <a href="#featured" onclick="toggleMobileMenu()" class="px-3 py-1.5 text-xs text-slate-200 rounded-full bg-white/5">Unggulan</a>
+      <a href="#timeline" onclick="toggleMobileMenu()" class="px-3 py-1.5 text-xs text-slate-200 rounded-full bg-white/5">Linimasa</a>
+      <a href="#letters" onclick="toggleMobileMenu()" class="px-3 py-1.5 text-xs text-slate-200 rounded-full bg-white/5">Surat</a>
+      <a href="#music" onclick="toggleMobileMenu()" class="px-3 py-1.5 text-xs text-slate-200 rounded-full bg-white/5">Musik</a>
+      <a href="#gallery" onclick="toggleMobileMenu()" class="px-3 py-1.5 text-xs text-slate-200 rounded-full bg-white/5">Galeri</a>
+      <a href="#about" onclick="toggleMobileMenu()" class="px-3 py-1.5 text-xs text-slate-200 rounded-full bg-white/5">Tentang</a>
+    </div>
+  </header>
+
+  <!-- MAIN WEBSITE CONTENT -->
+  <main class="flex-1 max-w-7xl mx-auto w-full px-4 md:px-10 py-10 space-y-28">
+
+    <!-- 1. HERO SECTION -->
+    <section id="home" class="relative pt-8 md:pt-16 flex flex-col items-center text-center">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surfaceCard/90 border border-blue-500/30 text-blue-300 shadow-[0_0_20px_rgba(59,130,246,0.2)] mb-6">
+        <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+        <span class="text-xs font-semibold tracking-wider uppercase">Digital Memory Sanctuary</span>
+      </div>
+
+      <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-4xl leading-[1.12]">
+        Some moments deserve to <br/>
+        <span class="bg-gradient-to-r from-blue-400 via-sky-300 to-indigo-400 bg-clip-text text-transparent drop-shadow-[0_0_35px_rgba(96,165,250,0.4)]">stay forever.</span>
+      </h1>
+
+      <p class="text-sm md:text-lg text-slate-300 max-w-2xl mt-6 leading-relaxed">
+        Ruang penyimpanan abadi untuk merawat setiap foto, cerita, surat yang tak pernah sempat terkirim, dan lagu yang merekam hangatnya perjalanan waktu.
+      </p>
+
+      <p class="text-xs md:text-sm text-slate-400 italic max-w-lg mt-3">
+        “Di sini waktu berhenti berputar. Jelajahi kembali cahaya yang pernah kita tinggalkan bersama.”
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="flex flex-wrap items-center justify-center gap-4 mt-8">
+        <a href="#featured" class="px-6 py-3 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm shadow-xl shadow-blue-600/30 flex items-center gap-2 transition-all hover:scale-105">
+          <span>Jelajahi Kenangan</span>
+          <span class="material-symbols-outlined text-[18px]">arrow_downward</span>
+        </a>
+        <button onclick="sparkHeart(event)" class="px-5 py-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/15 text-slate-200 font-semibold text-sm flex items-center gap-2 transition-all active:scale-95">
+          <span class="material-symbols-outlined text-red-400 text-[20px]">favorite</span>
+          <span id="hero-heart-label">Kirim Kehangatan</span>
+        </button>
+      </div>
+
+      <!-- Interactive 3D Keepsake Card -->
+      <div class="mt-14 w-full max-w-md">
+        <div id="talisman-card" class="glass-surface glass-surface-glow rounded-3xl p-5 border border-blue-500/30 flex items-center justify-between cursor-pointer transition-transform duration-300">
+          <div class="flex items-center gap-3.5 text-left">
+            <div class="w-12 h-12 rounded-full overflow-hidden border border-blue-500/40 shadow-[0_0_15px_rgba(59,130,246,0.3)] shrink-0">
+              <img src="./assets/memories-logo.svg" alt="Keepsake Emblem" class="w-full h-full object-cover"/>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h4 class="font-bold text-sm text-white">Everlasting Keepsake</h4>
+                <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+              </div>
+              <p class="text-xs text-blue-300 font-medium">Jevallene • Memories Archive</p>
+            </div>
+          </div>
+          <span class="px-3 py-1 rounded-full text-[11px] font-semibold bg-blue-500/15 text-blue-300 border border-blue-500/25">Since 2023</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. FEATURED MEMORY SECTION -->
+    <section id="featured" class="scroll-mt-24">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div>
+          <div class="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider mb-1">
+            <span class="material-symbols-outlined text-[16px]">star</span>
+            <span>Sorotan Utama</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Featured Memory</h2>
+        </div>
+        <span class="text-xs text-slate-400">Momen yang paling sering dikenang</span>
+      </div>
+
+      <div class="glass-surface glass-surface-glow rounded-3xl p-4 md:p-8 border border-white/10 overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div class="lg:col-span-7 relative rounded-2xl overflow-hidden group h-[320px] md:h-[430px] bg-slate-900 cursor-pointer" onclick="openLightboxByIndex(0)">
+          <img src="./assets/asset_1.jpg" alt="The Night We Forgot The Clock" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"/>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+          <div class="absolute top-4 left-4 flex flex-wrap gap-2">
+            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-black/60 backdrop-blur-md text-white border border-white/20 flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[14px] text-blue-400">event</span>
+              <span>24 Desember 2024</span>
+            </span>
+            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-black/60 backdrop-blur-md text-blue-300 border border-blue-400/30 flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[14px]">location_on</span>
+              <span>Starlight Coast</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 flex flex-col justify-center space-y-5">
+          <div class="space-y-2">
+            <span class="text-xs uppercase tracking-wider text-blue-400 font-semibold">Kenangan Pilihan</span>
+            <h3 class="text-2xl md:text-3xl font-bold text-white leading-snug">The Night We Forgot The Clock</h3>
+            <p class="text-sm text-slate-300 leading-relaxed pt-2">
+              Duduk berdua di atas hamparan pasir dingin dengan desau ombak yang menyapu dermaga tua. Di bawah kilauan galaksi Bima Sakti, kita menghitung bintang jatuh sambil saling membisikkan janji rahasia yang tak akan pernah lekang oleh waktu.
+            </p>
+          </div>
+
+          <div class="pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
+            <button onclick="toggleMemoryAudio()" class="px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-medium text-blue-300 flex items-center gap-2 transition-all">
+              <span class="material-symbols-outlined text-[18px]" id="memory-audio-icon">play_circle</span>
+              <span id="memory-audio-label">Dengarkan Suasana Malam</span>
+            </button>
+
+            <button onclick="likeFeatured(this)" class="px-4 py-2 rounded-full bg-white/5 hover:bg-red-500/10 border border-white/10 hover:border-red-500/30 text-xs font-bold text-slate-200 flex items-center gap-2 transition-all active:scale-90">
+              <span class="material-symbols-outlined text-red-400 text-[18px]">favorite</span>
+              <span id="featured-likes">128</span>
+              <span>Suka</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. TIMELINE SECTION -->
+    <section id="timeline" class="scroll-mt-24">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div>
+          <div class="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider mb-1">
+            <span class="material-symbols-outlined text-[16px]">timeline</span>
+            <span>Jejak Waktu</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Memory Timeline</h2>
+        </div>
+
+        <div class="flex items-center gap-2 overflow-x-auto pb-1">
+          <button onclick="filterTimeline('all', this)" class="year-filter active px-4 py-1.5 rounded-full text-xs font-semibold bg-blue-600 text-white shadow-md shadow-blue-600/30">Semua</button>
+          <button onclick="filterTimeline('2026', this)" class="year-filter px-4 py-1.5 rounded-full text-xs font-medium bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10">2026</button>
+          <button onclick="filterTimeline('2025', this)" class="year-filter px-4 py-1.5 rounded-full text-xs font-medium bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10">2025</button>
+          <button onclick="filterTimeline('2024', this)" class="year-filter px-4 py-1.5 rounded-full text-xs font-medium bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10">2024</button>
+          <button onclick="filterTimeline('2023', this)" class="year-filter px-4 py-1.5 rounded-full text-xs font-medium bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10">2023</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="timeline-grid">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- 4. LETTERS & UNSENT MESSAGES SECTION -->
+    <section id="letters" class="scroll-mt-24">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div>
+          <div class="flex items-center gap-2 text-amber-400 text-xs font-bold uppercase tracking-wider mb-1">
+            <span class="material-symbols-outlined text-[16px]">mail</span>
+            <span>Surat & Pesan Tak Terkirim</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Letters & Unsent Messages</h2>
+        </div>
+        <span class="text-xs text-slate-400">Kata-kata yang disimpan dalam diam</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Letter 1 -->
+        <div class="vintage-paper rounded-3xl p-6 flex flex-col justify-between shadow-xl hover:border-amber-400/40 transition-colors">
+          <div>
+            <div class="flex items-center justify-between text-xs mb-3">
+              <span class="text-amber-400 font-bold flex items-center gap-1">
+                <span class="material-symbols-outlined text-[14px]">favorite</span>
+                Kepada: My Starlight
+              </span>
+              <span class="px-2.5 py-0.5 rounded-full bg-red-500/20 text-red-400 border border-red-500/30 text-[10px] font-bold">UNSENT</span>
+            </div>
+            <h4 class="text-lg font-bold text-white mb-3">The Things Left Unsaid in The Airport Corridor</h4>
+            <p class="text-xs text-slate-300 italic leading-relaxed border-l-2 border-amber-400/40 pl-3 my-4">
+              “Aku melihat pintu gerbang keberangkatanmu perlahan tertutup. Aku ingin sekali berlari memintamu tinggal, tetapi aku sadar kamu memiliki semesta impian yang harus kau kejar...”
+            </p>
+          </div>
+          <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+            <span class="text-[11px] text-slate-400">14 Oktober 2024</span>
+            <button onclick="openLetter(0)" class="text-xs font-semibold text-amber-300 hover:text-amber-200 flex items-center gap-1">
+              <span>Baca Selengkapnya</span>
+              <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Letter 2 -->
+        <div class="vintage-paper rounded-3xl p-6 flex flex-col justify-between shadow-xl hover:border-amber-400/40 transition-colors">
+          <div>
+            <div class="flex items-center justify-between text-xs mb-3">
+              <span class="text-amber-400 font-bold flex items-center gap-1">
+                <span class="material-symbols-outlined text-[14px]">favorite</span>
+                Kepada: Pendengar Setia
+              </span>
+              <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] font-bold">KEEPSAKE</span>
+            </div>
+            <h4 class="text-lg font-bold text-white mb-3">To The Autumn Leaves We Walked Upon</h4>
+            <p class="text-xs text-slate-300 italic leading-relaxed border-l-2 border-amber-400/40 pl-3 my-4">
+              “Apakah kamu ingat bangku taman kuning tempat kita berbincang sampai lampu-lampu jalanan menyala satu per satu? Aku masih ingat suara tawamu yang menembus hembusan angin dingin...”
+            </p>
+          </div>
+          <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+            <span class="text-[11px] text-slate-400">02 Agustus 2024</span>
+            <button onclick="openLetter(1)" class="text-xs font-semibold text-amber-300 hover:text-amber-200 flex items-center gap-1">
+              <span>Baca Selengkapnya</span>
+              <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Letter 3 -->
+        <div class="vintage-paper rounded-3xl p-6 flex flex-col justify-between shadow-xl hover:border-amber-400/40 transition-colors">
+          <div>
+            <div class="flex items-center justify-between text-xs mb-3">
+              <span class="text-amber-400 font-bold flex items-center gap-1">
+                <span class="material-symbols-outlined text-[14px]">favorite</span>
+                Kepada: Future Wanderer
+              </span>
+              <span class="px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30 text-[10px] font-bold">ARCHIVED</span>
+            </div>
+            <h4 class="text-lg font-bold text-white mb-3">Midnight Scribbles in A Blue Notebook</h4>
+            <p class="text-xs text-slate-300 italic leading-relaxed border-l-2 border-amber-400/40 pl-3 my-4">
+              “Semoga kamu menemukan kedamaian di setiap detik yang dulu pernah melukaimu. Bintang-bintang akan selalu menuntun kapalmu melewati badai...”
+            </p>
+          </div>
+          <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+            <span class="text-[11px] text-slate-400">28 Juni 2024</span>
+            <button onclick="openLetter(2)" class="text-xs font-semibold text-amber-300 hover:text-amber-200 flex items-center gap-1">
+              <span>Baca Selengkapnya</span>
+              <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. MUSIC MEMORIES SECTION -->
+    <section id="music" class="scroll-mt-24">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div>
+          <div class="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider mb-1">
+            <span class="material-symbols-outlined text-[16px]">music_note</span>
+            <span>Soundtrack Kenangan</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Music Memories</h2>
+        </div>
+        <span class="text-xs text-slate-400">Lagu-lagu yang membawa kita kembali ke masa itu</span>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <!-- Left: Now Playing Spotlight Vinyl Card -->
+        <div class="lg:col-span-5 glass-surface glass-surface-glow rounded-3xl p-6 border border-blue-500/30 text-center flex flex-col items-center">
+          <div class="relative w-48 h-48 rounded-full p-2 bg-gradient-to-tr from-slate-800 to-slate-900 border-4 border-white/10 shadow-[0_0_35px_rgba(59,130,246,0.3)] mb-6 flex items-center justify-center">
+            <div id="vinyl-disc" class="w-full h-full rounded-full overflow-hidden transition-transform">
+              <img id="spotlight-cover" src="./assets/asset_5.jpg" alt="Active Music Cover" class="w-full h-full object-cover"/>
+            </div>
+            <div class="absolute w-8 h-8 rounded-full bg-slate-950 border-2 border-white/20"></div>
+          </div>
+
+          <h3 id="spotlight-title" class="text-xl font-bold text-white">Yellow</h3>
+          <p id="spotlight-artist" class="text-sm text-blue-300 font-medium mt-1">Coldplay • Parachutes</p>
+
+          <div class="my-4 px-4 py-2.5 rounded-xl bg-white/5 border border-white/5 text-xs text-slate-300 italic max-w-sm" id="spotlight-story">
+            “Kita mendengarkan lagu ini sambil menatap lampu-lampu mobil di jalan tol pesisir pada jam 2 pagi.”
+          </div>
+
+          <button onclick="togglePlayPause()" class="mt-2 px-6 py-2.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex items-center gap-2 shadow-lg shadow-blue-600/30 transition-all">
+            <span class="material-symbols-outlined text-[18px]" id="spotlight-play-icon">play_arrow</span>
+            <span id="spotlight-play-label">Putar Melodi Ini</span>
+          </button>
+        </div>
+
+        <!-- Right: Playlist Items -->
+        <div class="lg:col-span-7 space-y-3" id="playlist-container"></div>
+      </div>
+    </section>
+
+    <!-- 6. GALLERY MASONRY SECTION -->
+    <section id="gallery" class="scroll-mt-24">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div>
+          <div class="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider mb-1">
+            <span class="material-symbols-outlined text-[16px]">photo_library</span>
+            <span>Galeri Momen</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Photo Archive</h2>
+        </div>
+        <span class="text-xs text-slate-400">Klik foto mana pun untuk melihat dalam layar penuh</span>
+      </div>
+
+      <div class="columns-1 sm:columns-2 lg:columns-4 gap-4 space-y-4" id="gallery-grid">
+        <!-- Rendered by JS for all 11 photos -->
+      </div>
+    </section>
+
+    <!-- 7. ABOUT THIS ARCHIVE SECTION -->
+    <section id="about" class="scroll-mt-24 pb-8">
+      <div class="glass-surface glass-surface-glow rounded-3xl p-8 md:p-12 border border-white/10 text-center max-w-4xl mx-auto space-y-6">
+        <div class="w-16 h-16 rounded-full overflow-hidden mx-auto shadow-[0_0_25px_rgba(59,130,246,0.35)]">
+          <img src="./assets/memories-logo.svg" alt="Archive Emblem" class="w-full h-full object-contain"/>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Tentang Arsip Ini</h2>
+        <p class="text-sm text-slate-300 leading-relaxed max-w-2xl mx-auto">
+          Memories With Someone adalah ruang pribadi untuk merawat setiap fragmen waktu yang pernah membuat hidup terasa utuh. Dibangun dengan filosofi sederhana: tidak ada kenangan berharga yang layak memudar begitu saja ditelan pergantian hari.
+        </p>
+        <div class="pt-4 flex flex-wrap items-center justify-center gap-4 text-xs text-blue-300/90">
+          <span class="px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20">Private Sanctuary</span>
+          <span class="px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20">Curated Memories</span>
+          <span class="px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20">Timeless Stories</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- EDITORIAL FOOTER (Clean Dark Cosmic Style with Blue Accents) -->
+  <footer class="border-t border-white/10 bg-[#050814]/90 backdrop-blur-xl pt-12 pb-28 text-xs text-slate-400">
+    <div class="max-w-7xl mx-auto px-4 md:px-10 space-y-10">
+      <!-- Top Studio / Archive Tagline -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <img src="./assets/memories-logo.svg" alt="Logo" class="w-7 h-7 rounded-full"/>
+          <p class="text-slate-400">
+            <strong class="text-slate-200">Memories With Someone</strong> — Ruang arsip kenangan digital oleh <span class="text-blue-400 font-medium">Jevallene</span>. Menyimpan cerita, foto, surat, dan melodi abadi.
+          </p>
+        </div>
+      </div>
+
+      <hr class="border-white/10"/>
+
+      <!-- 5-Column Footer Links -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8">
+        <div class="space-y-2.5">
+          <h4 class="text-slate-200 font-semibold text-xs mb-3">Navigasi</h4>
+          <ul class="space-y-2">
+            <li><a href="#home" class="hover:text-blue-400 transition-colors">Beranda</a></li>
+            <li><a href="#featured" class="hover:text-blue-400 transition-colors">Kenangan Utama</a></li>
+            <li><a href="#timeline" class="hover:text-blue-400 transition-colors">Linimasa</a></li>
+            <li><a href="#letters" class="hover:text-blue-400 transition-colors">Surat Tak Terkirim</a></li>
+            <li><a href="#music" class="hover:text-blue-400 transition-colors">Musik Kenangan</a></li>
+          </ul>
+        </div>
+
+        <div class="space-y-2.5">
+          <h4 class="text-slate-200 font-semibold text-xs mb-3">Koleksi & Bab</h4>
+          <ul class="space-y-2">
+            <li><a href="#featured" class="hover:text-blue-400 transition-colors">Starlight Coast</a></li>
+            <li><a href="#timeline" class="hover:text-blue-400 transition-colors">Port Meridian Sunset</a></li>
+            <li><a href="#timeline" class="hover:text-blue-400 transition-colors">Raindrop Cafe</a></li>
+            <li><a href="#timeline" class="hover:text-blue-400 transition-colors">Northern Railway</a></li>
+          </ul>
+        </div>
+
+        <div class="space-y-2.5">
+          <h4 class="text-slate-200 font-semibold text-xs mb-3">Ruang Arsip</h4>
+          <ul class="space-y-2">
+            <li><a href="#gallery" class="hover:text-blue-400 transition-colors">Galeri Foto</a></li>
+            <li><a href="#letters" class="hover:text-blue-400 transition-colors">Catatan Harian</a></li>
+            <li><a href="#music" class="hover:text-blue-400 transition-colors">Soundtrack Pilihan</a></li>
+            <li><a href="#about" class="hover:text-blue-400 transition-colors">Tentang Arsip</a></li>
+          </ul>
+        </div>
+
+        <div class="space-y-2.5">
+          <h4 class="text-slate-200 font-semibold text-xs mb-3">Terhubung</h4>
+          <ul class="space-y-2">
+            <li><a href="#music" class="hover:text-blue-400 transition-colors">Spotify Playlist</a></li>
+            <li><a href="#gallery" class="hover:text-blue-400 transition-colors">Instagram Memories</a></li>
+            <li><a href="#letters" class="hover:text-blue-400 transition-colors">Journal Archive</a></li>
+            <li><a href="#about" class="hover:text-blue-400 transition-colors">Jevallene Studio</a></li>
+          </ul>
+        </div>
+
+        <div class="space-y-2.5">
+          <h4 class="text-slate-200 font-semibold text-xs mb-3">Lokasi & Status</h4>
+          <ul class="space-y-2">
+            <li class="text-slate-300">Bandung, Indonesia</li>
+            <li class="text-blue-400">Ruang Kenangan Terjaga</li>
+            <li>Diperbarui Secara Berkala</li>
+          </ul>
+        </div>
+      </div>
+
+      <hr class="border-white/10"/>
+
+      <!-- Bottom Copyright & Back to Top Bar -->
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4 pt-2">
+        <div class="flex flex-wrap items-center gap-3 text-slate-500">
+          <span>© 2026 <strong class="text-slate-300">Jevallene</strong> — Memories With Someone. Seluruh hak cipta dilindungi.</span>
+          <span class="hidden sm:inline">|</span>
+          <div class="flex items-center gap-3">
+            <a href="#home" class="hover:text-blue-400 transition-colors">Beranda</a>
+            <a href="#timeline" class="hover:text-blue-400 transition-colors">Linimasa</a>
+            <a href="#letters" class="hover:text-blue-400 transition-colors">Surat</a>
+            <a href="#gallery" class="hover:text-blue-400 transition-colors">Galeri</a>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <span class="text-slate-500 hidden sm:inline">Bandung, Indonesia</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FLOATING BOTTOM MUSIC PLAYER BAR -->
+  <aside id="floating-player" class="fixed bottom-4 left-4 right-4 max-w-3xl mx-auto z-40 glass-surface glass-surface-glow rounded-2xl p-3 border border-blue-500/30 flex items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+      <img id="player-thumb" src="./assets/asset_5.jpg" alt="Thumb" class="w-11 h-11 rounded-xl object-cover border border-white/10"/>
+      <div class="flex flex-col text-left">
+        <span id="player-title" class="font-bold text-xs text-white">Yellow</span>
+        <span id="player-artist" class="text-[11px] text-blue-300">Coldplay</span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <button onclick="prevTrack()" class="text-slate-400 hover:text-white transition-colors" title="Lagu Sebelumnya">
+        <span class="material-symbols-outlined text-[20px]">skip_previous</span>
+      </button>
+      <button onclick="togglePlayPause()" class="w-9 h-9 rounded-full bg-blue-600 hover:bg-blue-500 text-white flex items-center justify-center shadow-lg shadow-blue-600/30 transition-all" title="Play/Pause">
+        <span class="material-symbols-outlined text-[20px]" id="player-play-icon">play_arrow</span>
+      </button>
+      <button onclick="nextTrack()" class="text-slate-400 hover:text-white transition-colors" title="Lagu Selanjutnya">
+        <span class="material-symbols-outlined text-[20px]">skip_next</span>
+      </button>
+    </div>
+
+    <div class="hidden sm:flex items-center gap-2 flex-1 max-w-xs">
+      <span class="text-[10px] text-slate-400 font-mono" id="time-curr">0:45</span>
+      <div class="flex-1 h-1.5 rounded-full bg-white/10 overflow-hidden cursor-pointer" onclick="seekAudio(event)">
+        <div id="player-progress-bar" class="h-full bg-blue-500 rounded-full transition-all" style="width: 35%"></div>
+      </div>
+      <span class="text-[10px] text-slate-400 font-mono" id="time-dur">4:29</span>
+    </div>
+  </aside>
+
+  <!-- TIMELINE STORY MODAL -->
+  <div id="story-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4" onclick="closeStoryModal()">
+    <div class="glass-surface rounded-3xl p-6 max-w-2xl w-full border border-blue-500/30 shadow-2xl relative max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
+      <button onclick="closeStoryModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/50 text-slate-300 hover:text-white flex items-center justify-center">
+        <span class="material-symbols-outlined text-[20px]">close</span>
+      </button>
+      <img id="story-modal-img" src="" alt="Story" class="w-full h-64 object-cover rounded-2xl mb-4"/>
+      <div class="flex items-center gap-2 text-xs text-blue-400 font-semibold mb-1">
+        <span id="story-modal-date"></span> • <span id="story-modal-location" class="text-emerald-400"></span>
+      </div>
+      <h3 id="story-modal-title" class="text-2xl font-bold text-white mb-3"></h3>
+      <p id="story-modal-desc" class="text-sm text-slate-300 leading-relaxed"></p>
+    </div>
+  </div>
+
+  <!-- LETTER MODAL DIALOG -->
+  <div id="letter-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4" onclick="closeLetter()">
+    <div class="vintage-paper rounded-3xl p-6 sm:p-8 max-w-xl w-full border border-amber-500/30 shadow-2xl relative max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
+      <button onclick="closeLetter()" class="absolute top-5 right-5 text-slate-400 hover:text-white">
+        <span class="material-symbols-outlined text-[24px]">close</span>
+      </button>
+      <div class="flex items-center gap-2 text-amber-400 text-xs font-bold mb-1">
+        <span class="material-symbols-outlined text-[16px]">mail</span>
+        <span id="modal-letter-to"></span>
+      </div>
+      <h3 id="modal-letter-title" class="text-xl sm:text-2xl font-bold text-white mb-2"></h3>
+      <span id="modal-letter-date" class="text-xs text-slate-400 block mb-4"></span>
+      <hr class="border-white/10 mb-4"/>
+      <div id="modal-letter-body" class="text-sm text-slate-200 leading-relaxed space-y-3 font-serif"></div>
+      <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
+        <button onclick="window.print()" class="px-4 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 text-xs font-bold flex items-center gap-1.5 transition-all">
+          <span class="material-symbols-outlined text-[16px]">print</span>
+          <span>Cetak / Simpan PDF</span>
+        </button>
+        <button onclick="closeLetter()" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHOTO LIGHTBOX MODAL -->
+  <div id="lightbox-modal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl hidden items-center justify-center p-4" onclick="closeLightbox()">
+    <button onclick="event.stopPropagation(); prevLightbox()" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 hover:bg-blue-600/40 text-white flex items-center justify-center">
+      <span class="material-symbols-outlined">chevron_left</span>
+    </button>
+    <div class="max-w-4xl max-h-[90vh] flex flex-col items-center" onclick="event.stopPropagation()">
+      <img id="lightbox-img" src="" alt="Fullscreen Preview" class="max-w-full max-h-[80vh] rounded-2xl object-contain shadow-2xl border border-white/20"/>
+      <p id="lightbox-caption" class="text-white text-sm font-medium mt-3 text-center"></p>
+    </div>
+    <button onclick="event.stopPropagation(); nextLightbox()" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 hover:bg-blue-600/40 text-white flex items-center justify-center">
+      <span class="material-symbols-outlined">chevron_right</span>
+    </button>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // --- Timeline Data ---
+    const timelineItems = [
+      {
+        year: '2024',
+        date: '12 November 2024',
+        tag: 'Sunset & Pantai',
+        title: 'Sunset at The Old Wooden Pier',
+        location: 'Port Meridian',
+        image: './assets/asset_2.jpg',
+        excerpt: 'Langit sore meledak dalam perpaduan ungu dan jingga keemasan. Kita menikmati jagung bakar hangat sambil tersenyum tanpa perlu banyak bicara.',
+        full: 'Langit sore meledak dalam perpaduan ungu dan jingga keemasan di atas dermaga kayu tua. Suara burung camar perlahan menghilang berganti desiran angin malam. Kita duduk berdampingan menikmati jagung bakar hangat, membiarkan senja melukis bayangan kita yang memanjang di permukaan air.'
+      },
+      {
+        year: '2024',
+        date: '04 Oktober 2024',
+        tag: 'Quiet Moments',
+        title: 'Rainy Afternoon in Corner Cafe',
+        location: 'Raindrop District',
+        image: './assets/asset_3.jpg',
+        excerpt: 'Hujan deras mengguyur kaca jendela kafe. Ditemani cappuccino hangat, kita menggambar coretan lucu di atas tisu yang masih tersimpan rapi.',
+        full: 'Hujan deras mengguyur kaca jendela kafe kecil di sudut kota. Aroma kopi panggang berpadu dengan wangi tanah basah. Ditemani dua cangkir cappuccino hangat, kita menghabiskan berjam-jam menggambar coretan lucu di atas tisu kafe yang hingga kini masih tersimpan rapi di dompet.'
+      },
+      {
+        year: '2024',
+        date: '19 September 2024',
+        tag: 'Perjalanan',
+        title: 'Midnight Train Through Forgotten Valleys',
+        location: 'Northern Railway',
+        image: './assets/asset_4.jpg',
+        excerpt: 'Gemuruh roda kereta membelah kabut lembah pinus. Berbagi satu earphone mendengarkan melodi nostalgia hingga tertidur pulas di pundakmu.',
+        full: 'Gemuruh ritmis roda kereta malam membelah kabut tipis di antara pepohonan pinus. Lampu gerbong yang temaram menciptakan ruang paling tenang di dunia. Kita berbagi satu pasang earphone, memutar daftar lagu rahasia hingga lelap menjemput di tengah perjalanan.'
+      },
+      {
+        year: '2025',
+        date: '18 Februari 2025',
+        tag: 'Observatory',
+        title: 'Winter Stargazing on Observatory Hill',
+        location: 'Lembang Ridge',
+        image: './assets/asset_6.jpg',
+        excerpt: 'Udara dingin pegunungan tidak menghalangi kita menatap gugusan Orion yang bersinar terang tepat di atas kepala.',
+        full: 'Jaket tebal dan termos cokelat panas menjadi teman terbaik malam itu. Di puncak bukit observatorium, langit bersih tanpa awan menampakkan ribuan bintang. Kita belajar mengenali rasi bintang satu per satu sambil menuliskan harapan untuk tahun-tahun yang akan datang.'
+      },
+      {
+        year: '2025',
+        date: '09 Mei 2025',
+        tag: 'Musik & Hujan',
+        title: 'Acoustic Strings & Window Raindrops',
+        location: 'Studio Lot #7',
+        image: './assets/asset_7.jpg',
+        excerpt: 'Petikan gitar akustik mengalun pelan di ruang tamu ketika hujan sore turun tanpa henti.',
+        full: 'Tidak ada rencana keluar rumah sore itu. Hanya gitar akustik, lagu-lagu lama yang dinyanyikan setengah berbisik, dan suara rintik hujan yang menjadi ketukan alami di balik kaca jendela.'
+      },
+      {
+        year: '2023',
+        date: '22 Juli 2023',
+        tag: 'Awal Cerita',
+        title: 'First Gelato Walk by The Canal',
+        location: 'Braga Heritage',
+        image: './assets/asset_8.jpg',
+        excerpt: 'Sore musim panas pertama tempat semuanya bermula, ditemani langkah kaki santai dan obrolan yang tak ada habisnya.',
+        full: 'Sore yang cerah di jalanan berbatu tua. Dari obrolan canggung yang perlahan mencair menjadi tawa lepas, hari itu menjadi halaman pertama dari seluruh arsip kenangan yang kini tertulis di sini.'
+      }
+    ];
+
+    function renderTimeline(year = 'all') {
+      const grid = document.getElementById('timeline-grid');
+      const filtered = year === 'all' ? timelineItems : timelineItems.filter(i => i.year === year);
+      grid.innerHTML = filtered.map((item) => {
+        const originalIndex = timelineItems.indexOf(item);
+        return `
+        <div onclick="openStoryModal(${originalIndex})" class="timeline-card glass-surface glass-border-glow rounded-3xl p-5 border border-white/10 flex flex-col justify-between cursor-pointer transition-all">
+          <div>
+            <div class="rounded-2xl overflow-hidden h-48 bg-slate-900 mb-4">
+              <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"/>
+            </div>
+            <div class="flex items-center justify-between text-xs mb-2">
+              <span class="text-blue-400 font-semibold">${item.date}</span>
+              <span class="px-2 py-0.5 rounded-md bg-white/5 text-slate-300 border border-white/5">${item.tag}</span>
+            </div>
+            <h4 class="text-lg font-bold text-white mb-2">${item.title}</h4>
+            <p class="text-xs text-slate-300 leading-relaxed">${item.excerpt}</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-xs text-slate-400">
+            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px] text-blue-400">location_on</span> ${item.location}</span>
+            <span class="text-blue-400 font-medium">Baca Cerita →</span>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    function filterTimeline(year, btn) {
+      document.querySelectorAll('.year-filter').forEach(b => {
+        b.classList.remove('active', 'bg-blue-600', 'text-white', 'shadow-md');
+        b.classList.add('bg-white/5', 'text-slate-300', 'border', 'border-white/10');
+      });
+      btn.classList.add('active', 'bg-blue-600', 'text-white', 'shadow-md');
+      btn.classList.remove('bg-white/5', 'text-slate-300', 'border');
+      renderTimeline(year);
+    }
+
+    function openStoryModal(idx) {
+      const item = timelineItems[idx];
+      document.getElementById('story-modal-img').src = item.image;
+      document.getElementById('story-modal-date').textContent = item.date;
+      document.getElementById('story-modal-location').textContent = item.location;
+      document.getElementById('story-modal-title').textContent = item.title;
+      document.getElementById('story-modal-desc').textContent = item.full;
+      const m = document.getElementById('story-modal');
+      m.classList.remove('hidden');
+      m.classList.add('flex');
+    }
+
+    function closeStoryModal() {
+      const m = document.getElementById('story-modal');
+      m.classList.add('hidden');
+      m.classList.remove('flex');
+    }
+
+    // --- Gallery Data (All 11 assets) ---
+    const galleryPhotos = [
+      { src: './assets/asset_1.jpg', caption: 'Starlight Coast Beach — 24 Desember 2024' },
+      { src: './assets/asset_2.jpg', caption: 'Port Meridian Sunset — 12 November 2024' },
+      { src: './assets/asset_3.jpg', caption: 'Rainy Cafe Moments — 04 Oktober 2024' },
+      { src: './assets/asset_4.jpg', caption: 'Midnight Train Valley — 19 September 2024' },
+      { src: './assets/asset_5.jpg', caption: 'Parachutes Vinyl Session — Soundtrack Malam' },
+      { src: './assets/asset_6.jpg', caption: 'Observatory Stargazing — Lembang Ridge' },
+      { src: './assets/asset_7.jpg', caption: 'Acoustic Rain Afternoon — Studio Lot #7' },
+      { src: './assets/asset_8.jpg', caption: 'First Gelato Walk — Braga Heritage' },
+      { src: './assets/asset_9.jpg', caption: 'City Lights Reflection — Malam Tanpa Batas' },
+      { src: './assets/asset_10.jpg', caption: 'Quiet Horizon — Pagi di Pesisir' },
+      { src: './assets/asset_11.jpg', caption: 'Timeless Keepsake — Fragmen Cahaya' }
+    ];
+
+    let currentLightboxIdx = 0;
+
+    function renderGallery() {
+      const grid = document.getElementById('gallery-grid');
+      grid.innerHTML = galleryPhotos.map((p, idx) => `
+        <div class="break-inside-avoid rounded-2xl overflow-hidden glass-surface border border-white/10 group cursor-pointer" onclick="openLightboxByIndex(${idx})">
+          <img src="${p.src}" alt="${p.caption}" class="w-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+          <div class="p-3 bg-black/60 backdrop-blur-md text-xs font-medium text-slate-200">${p.caption}</div>
+        </div>
+      `).join('');
+    }
+
+    function openLightboxByIndex(idx) {
+      currentLightboxIdx = idx;
+      const p = galleryPhotos[idx];
+      document.getElementById('lightbox-img').src = p.src;
+      document.getElementById('lightbox-caption').textContent = p.caption;
+      const modal = document.getElementById('lightbox-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function nextLightbox() {
+      openLightboxByIndex((currentLightboxIdx + 1) % galleryPhotos.length);
+    }
+
+    function prevLightbox() {
+      openLightboxByIndex((currentLightboxIdx - 1 + galleryPhotos.length) % galleryPhotos.length);
+    }
+
+    function closeLightbox() {
+      const modal = document.getElementById('lightbox-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    // --- Music Data & Live Timer ---
+    const tracks = [
+      {
+        title: "Yellow",
+        artist: "Coldplay",
+        album: "Parachutes",
+        cover: "./assets/asset_5.jpg",
+        story: "Kita mendengarkan lagu ini sambil menatap lampu-lampu mobil di jalan tol pesisir pada jam 2 pagi.",
+        seconds: 269,
+        duration: "4:29"
+      },
+      {
+        title: "Space Song",
+        artist: "Beach House",
+        album: "Depression Cherry",
+        cover: "./assets/asset_6.jpg",
+        story: "Alunan synth melayang yang menemani perjalanan pertama kita menuju bukit observatorium.",
+        seconds: 320,
+        duration: "5:20"
+      },
+      {
+        title: "Sparks",
+        artist: "Coldplay",
+        album: "Acoustic Memories",
+        cover: "./assets/asset_7.jpg",
+        story: "Petikan gitar akustik lembut yang selalu mengingatkanku pada suara hujan rintik di kaca jendela.",
+        seconds: 227,
+        duration: "3:47"
+      },
+      {
+        title: "Mystery of Love",
+        artist: "Sufjan Stevens",
+        album: "Call Me By Your Name",
+        cover: "./assets/asset_8.jpg",
+        story: "Nada banjo hangat di sore musim panas menikmati es krim gelato di pinggir kanal.",
+        seconds: 248,
+        duration: "4:08"
+      }
+    ];
+
+    let currentTrackIdx = 0;
+    let isPlaying = false;
+    let currentSec = 45;
+    let playerTimer = null;
+
+    function formatTime(s) {
+      const m = Math.floor(s / 60);
+      const rem = Math.floor(s % 60);
+      return `${m}:${rem < 10 ? '0' : ''}${rem}`;
+    }
+
+    function renderPlaylist() {
+      const container = document.getElementById('playlist-container');
+      container.innerHTML = tracks.map((t, idx) => `
+        <div onclick="selectTrack(${idx})" class="p-3.5 rounded-2xl glass-surface glass-border-glow border ${idx === currentTrackIdx ? 'border-blue-500 bg-blue-500/15' : 'border-white/10'} flex items-center justify-between gap-4 cursor-pointer transition-all">
+          <div class="flex items-center gap-3">
+            <img src="${t.cover}" alt="${t.title}" class="w-12 h-12 rounded-xl object-cover"/>
+            <div>
+              <h4 class="font-bold text-sm text-white">${t.title}</h4>
+              <p class="text-xs text-slate-400">${t.artist} • ${t.album}</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-xs text-slate-400 font-mono">${t.duration}</span>
+            <span class="material-symbols-outlined text-[22px] ${idx === currentTrackIdx ? 'text-blue-400' : 'text-slate-400'}">
+              ${idx === currentTrackIdx && isPlaying ? 'pause_circle' : 'play_circle'}
+            </span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function selectTrack(idx) {
+      currentTrackIdx = idx;
+      currentSec = 0;
+      isPlaying = true;
+      startProgressTimer();
+      updatePlayerUI();
+    }
+
+    function togglePlayPause() {
+      isPlaying = !isPlaying;
+      if (isPlaying) {
+        startProgressTimer();
+      } else {
+        clearInterval(playerTimer);
+      }
+      updatePlayerUI();
+    }
+
+    function startProgressTimer() {
+      clearInterval(playerTimer);
+      playerTimer = setInterval(() => {
+        if (!isPlaying) return;
+        currentSec++;
+        if (currentSec >= tracks[currentTrackIdx].seconds) {
+          nextTrack();
+        } else {
+          updateProgressBarOnly();
+        }
+      }, 1000);
+    }
+
+    function updateProgressBarOnly() {
+      const track = tracks[currentTrackIdx];
+      const pct = Math.min(100, (currentSec / track.seconds) * 100);
+      document.getElementById('time-curr').textContent = formatTime(currentSec);
+      document.getElementById('player-progress-bar').style.width = `${pct}%`;
+    }
+
+    function seekAudio(e) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      currentSec = Math.floor(ratio * tracks[currentTrackIdx].seconds);
+      updateProgressBarOnly();
+    }
+
+    function nextTrack() {
+      currentTrackIdx = (currentTrackIdx + 1) % tracks.length;
+      currentSec = 0;
+      updatePlayerUI();
+    }
+
+    function prevTrack() {
+      currentTrackIdx = (currentTrackIdx - 1 + tracks.length) % tracks.length;
+      currentSec = 0;
+      updatePlayerUI();
+    }
+
+    function updatePlayerUI() {
+      const track = tracks[currentTrackIdx];
+      document.getElementById('player-thumb').src = track.cover;
+      document.getElementById('player-title').textContent = track.title;
+      document.getElementById('player-artist').textContent = track.artist;
+      document.getElementById('time-dur').textContent = track.duration;
+      document.getElementById('player-play-icon').textContent = isPlaying ? 'pause' : 'play_arrow';
+
+      document.getElementById('spotlight-cover').src = track.cover;
+      document.getElementById('spotlight-title').textContent = track.title;
+      document.getElementById('spotlight-artist').textContent = `${track.artist} • ${track.album}`;
+      document.getElementById('spotlight-story').textContent = `“${track.story}”`;
+      document.getElementById('spotlight-play-icon').textContent = isPlaying ? 'pause' : 'play_arrow';
+      document.getElementById('spotlight-play-label').textContent = isPlaying ? 'Jeda Melodi' : 'Putar Melodi Ini';
+
+      const vinyl = document.getElementById('vinyl-disc');
+      if (isPlaying) {
+        vinyl.classList.add('animate-spin');
+        vinyl.style.animationDuration = '12s';
+      } else {
+        vinyl.classList.remove('animate-spin');
+      }
+
+      updateProgressBarOnly();
+      renderPlaylist();
+    }
+
+    // --- Letters Data ---
+    const lettersData = [
+      {
+        to: "Kepada: My Starlight",
+        title: "The Things Left Unsaid in The Airport Corridor",
+        date: "14 Oktober 2024",
+        body: `<p>Aku melihat pintu gerbang keberangkatanmu perlahan tertutup dari balik kaca tebal terminal.</p>
+               <p>Aku ingin sekali berlari memintamu tinggal, menarik kopermu dan berkata bahwa kita bisa mencari jalan keluar bersama. Tetapi aku sadar kamu memiliki semesta impian yang harus kau kejar. Menahanmu di sini hanya akan memadamkan cahaya yang paling aku kagumi darimu.</p>
+               <p>Maka aku berdiri diam di sana, merapatkan jaket tebalku, dan menyebut namamu dalam bisikan doa pelan. Jika di suatu waktu di masa depan kamu membaca catatan ini di bintang yang jauh, ketahuilah bahwa hatiku tidak pernah benar-benar beranjak dari pagi itu.</p>`
+      },
+      {
+        to: "Kepada: Pendengar Setia",
+        title: "To The Autumn Leaves We Walked Upon",
+        date: "02 Agustus 2024",
+        body: `<p>Apakah kamu masih ingat bangku taman tua bercat kuning tempat kita menghabiskan sore sampai lampu jalanan menyala satu per satu?</p>
+               <p>Aku masih ingat nada tawamu yang terdengar begitu jernih menembus angin musim gugur. Kita membicarakan hal-hal kecil: kopi yang terlalu manis, kucing liar yang kita beri nama Jupiter, dan rencana liburan yang entah kapan terlaksana.</p>
+               <p>Beberapa orang hadir dalam hidup kita seperti musim—meninggalkan jejak warna hangat yang abadi, bahkan setelah dedaunan kering berguguran.</p>`
+      },
+      {
+        to: "Kepada: Future Wanderer",
+        title: "Midnight Scribbles in A Blue Notebook",
+        date: "28 Juni 2024",
+        body: `<p>Semoga di mana pun kamu berada saat ini, kamu menemukan ketenangan di dalam hatimu.</p>
+               <p>Waktu menyembuhkan bukan dengan cara menghapus rasa sakit, melainkan dengan meluaskan ruang di dalam jiwa kita agar luka itu tidak lagi terasa menyesakkan. Minumlah teh hangat, tarik napas panjang, dan maafkan dirimu karena telah mencintai dengan begitu tulus.</p>
+               <p>Konstelasi bintang di langit akan selalu menjadi pemandu perjalanan pulangmu.</p>`
+      }
+    ];
+
+    function openLetter(idx) {
+      const data = lettersData[idx];
+      document.getElementById('modal-letter-to').textContent = data.to;
+      document.getElementById('modal-letter-title').textContent = data.title;
+      document.getElementById('modal-letter-date').textContent = data.date;
+      document.getElementById('modal-letter-body').innerHTML = data.body;
+      const modal = document.getElementById('letter-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeLetter() {
+      const modal = document.getElementById('letter-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    // --- Interactions ---
+    function toggleMobileMenu() {
+      document.getElementById('mobile-nav').classList.toggle('hidden');
+    }
+
+    let heroHearts = 42;
+    function sparkHeart(e) {
+      heroHearts++;
+      document.getElementById('hero-heart-label').textContent = `${heroHearts} Kehangatan`;
+      const heart = document.createElement('div');
+      heart.className = 'fixed pointer-events-none text-red-400 font-bold z-50 heart-float select-none';
+      heart.innerHTML = '❤️';
+      heart.style.left = (e.clientX - 10) + 'px';
+      heart.style.top = (e.clientY - 20) + 'px';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 1000);
+    }
+
+    let featuredLikes = 128;
+    let liked = false;
+    function likeFeatured(btn) {
+      liked = !liked;
+      featuredLikes += liked ? 1 : -1;
+      document.getElementById('featured-likes').textContent = featuredLikes;
+      btn.classList.toggle('text-red-400');
+    }
+
+    // --- Web Audio Synth Ambient ---
+    let audioCtx = null;
+    let isAmbientPlaying = false;
+    let ambientGain = null;
+
+    function toggleAmbient() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      isAmbientPlaying = !isAmbientPlaying;
+      const icon = document.getElementById('ambient-icon');
+      const label = document.getElementById('ambient-label');
+
+      if (isAmbientPlaying) {
+        const osc = audioCtx.createOscillator();
+        ambientGain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(174, audioCtx.currentTime);
+        ambientGain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+        osc.connect(ambientGain);
+        ambientGain.connect(audioCtx.destination);
+        osc.start();
+        icon.classList.add('animate-pulse');
+        label.textContent = "Ambient Aktif";
+      } else {
+        if (ambientGain) ambientGain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.1);
+        icon.classList.remove('animate-pulse');
+        label.textContent = "Ambient";
+      }
+    }
+
+    let memoryAudioActive = false;
+    function toggleMemoryAudio() {
+      memoryAudioActive = !memoryAudioActive;
+      document.getElementById('memory-audio-icon').textContent = memoryAudioActive ? 'pause_circle' : 'play_circle';
+      document.getElementById('memory-audio-label').textContent = memoryAudioActive ? 'Sedang Memutar Suasana...' : 'Dengarkan Suasana Malam';
+      toggleAmbient();
+    }
+
+    // --- 3D Keepsake Tilt ---
+    const talisman = document.getElementById('talisman-card');
+    if (talisman) {
+      talisman.addEventListener('pointermove', (e) => {
+        const rect = talisman.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        talisman.style.transform = `perspective(800px) rotateY(${x * 18}deg) rotateX(${-y * 18}deg) translateY(-4px)`;
+      });
+      talisman.addEventListener('pointerleave', () => {
+        talisman.style.transform = 'perspective(800px) rotateY(0deg) rotateX(0deg) translateY(0px)';
+      });
+    }
+
+    // Initialize Page
+    renderTimeline();
+    renderGallery();
+    renderPlaylist();
+    updatePlayerUI();
+  </script>
+</body>
+</html>
