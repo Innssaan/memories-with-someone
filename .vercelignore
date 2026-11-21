@@ -1,0 +1,11 @@
+memories_app/
+*.png
+*.ps1
+*.bat
+server.js
+simulator.html
+1-home-memories-with-someone.html
+2-letters-and-unsent-messages.html
+3-timeline-memories-with-someone.html
+4-music-memories-with-someone.html
+README.md
