@@ -150,11 +150,30 @@
       </nav>
 
       <!-- Right Header Controls -->
-      <div class="flex items-center gap-2.5">
-        <button id="ambient-btn" onclick="toggleAmbient()" class="px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 text-xs font-medium flex items-center gap-1.5 transition-all" title="Nyalakan Suara Ambient">
+      <div class="flex items-center gap-2.5 relative">
+        <button id="ambient-btn" onclick="toggleAmbientMenu()" class="px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 text-xs font-medium flex items-center gap-1.5 transition-all" title="Pilih Suara Ambient">
           <span class="material-symbols-outlined text-[18px] text-blue-400" id="ambient-icon">graphic_eq</span>
           <span class="hidden sm:inline" id="ambient-label">Ambient</span>
+          <span class="material-symbols-outlined text-[14px] text-slate-400">expand_more</span>
         </button>
+
+        <!-- Ambient Soundscape Picker Popover -->
+        <div id="ambient-menu" class="hidden absolute right-0 top-12 w-72 rounded-2xl bg-[#0B1120]/95 backdrop-blur-2xl border border-blue-500/30 shadow-[0_20px_50px_rgba(0,0,0,0.8)] p-4 z-50 space-y-3">
+          <div class="flex items-center justify-between border-b border-white/10 pb-2">
+            <span class="text-xs font-bold text-white flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[16px] text-blue-400">spa</span>
+              <span>Pilih Suasana Ambient</span>
+            </span>
+            <button onclick="stopAmbient()" id="ambient-stop-btn" class="hidden text-[10px] px-2 py-0.5 rounded-full bg-red-500/20 text-red-300 border border-red-500/30 hover:bg-red-500/30">Matikan</button>
+          </div>
+          <div id="ambient-list" class="space-y-1.5">
+            <!-- Rendered by JS -->
+          </div>
+          <div class="pt-2 border-t border-white/10 flex items-center gap-2">
+            <span class="material-symbols-outlined text-[16px] text-slate-400">volume_up</span>
+            <input type="range" min="0" max="100" value="55" oninput="setAmbientVolume(this.value)" class="w-full accent-blue-500 cursor-pointer h-1.5 bg-white/10 rounded-lg"/>
+          </div>
+        </div>
 
         <!-- Mobile Menu Toggle -->
         <button onclick="toggleMobileMenu()" class="lg:hidden w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-200">
@@ -595,6 +614,11 @@
       </div>
       <span class="text-[10px] text-slate-400 font-mono" id="time-dur">4:29</span>
     </div>
+
+    <div class="hidden md:flex items-center gap-1.5 w-24">
+      <span class="material-symbols-outlined text-[16px] text-slate-400">volume_up</span>
+      <input type="range" min="0" max="100" value="65" oninput="setMusicVolume(this.value)" class="w-full accent-blue-500 cursor-pointer h-1 bg-white/10 rounded-lg" title="Volume Musik"/>
+    </div>
   </aside>
 
   <!-- TIMELINE STORY MODAL -->
@@ -821,7 +845,19 @@
       modal.classList.remove('flex');
     }
 
-    // --- Music Data & Live Timer ---
+    // --- Shared Web Audio Context ---
+    let audioCtx = null;
+    function getAudioCtx() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    // --- Music Data & Polyphonic Synthesizer ---
     const tracks = [
       {
         title: "Yellow",
@@ -830,7 +866,17 @@
         cover: "./assets/asset_5.jpg",
         story: "Kita mendengarkan lagu ini sambil menatap lampu-lampu mobil di jalan tol pesisir pada jam 2 pagi.",
         seconds: 269,
-        duration: "4:29"
+        duration: "4:29",
+        bpm: 86,
+        timbre: "warm_pad",
+        // B major warm indie progression: B - F# - E - B
+        chords: [
+          [246.94, 311.13, 369.99],
+          [185.00, 233.08, 277.18],
+          [164.81, 207.65, 246.94],
+          [246.94, 311.13, 369.99]
+        ],
+        melody: [493.88, 466.16, 369.99, 466.16, 493.88, 369.99, 329.63, 369.99]
       },
       {
         title: "Space Song",
@@ -839,7 +885,17 @@
         cover: "./assets/asset_6.jpg",
         story: "Alunan synth melayang yang menemani perjalanan pertama kita menuju bukit observatorium.",
         seconds: 320,
-        duration: "5:20"
+        duration: "5:20",
+        bpm: 74,
+        timbre: "dream_synth",
+        // Eb major7 - Cm7 - Fm7 - Bb7 dreamy progression
+        chords: [
+          [155.56, 196.00, 233.08, 293.66],
+          [130.81, 155.56, 196.00, 233.08],
+          [174.61, 207.65, 261.63, 311.13],
+          [233.08, 293.66, 349.23, 415.30]
+        ],
+        melody: [466.16, 392.00, 466.16, 587.33, 523.25, 466.16, 392.00, 349.23]
       },
       {
         title: "Sparks",
@@ -848,7 +904,17 @@
         cover: "./assets/asset_7.jpg",
         story: "Petikan gitar akustik lembut yang selalu mengingatkanku pada suara hujan rintik di kaca jendela.",
         seconds: 227,
-        duration: "3:47"
+        duration: "3:47",
+        bpm: 78,
+        timbre: "acoustic_pluck",
+        // C#m7 - A - E - B acoustic arpeggio
+        chords: [
+          [138.59, 164.81, 207.65, 246.94],
+          [110.00, 138.59, 164.81, 220.00],
+          [164.81, 207.65, 246.94, 329.63],
+          [123.47, 155.56, 185.00, 246.94]
+        ],
+        melody: [329.63, 415.30, 493.88, 415.30, 369.99, 329.63, 277.18, 329.63]
       },
       {
         title: "Mystery of Love",
@@ -857,14 +923,118 @@
         cover: "./assets/asset_8.jpg",
         story: "Nada banjo hangat di sore musim panas menikmati es krim gelato di pinggir kanal.",
         seconds: 248,
-        duration: "4:08"
+        duration: "4:08",
+        bpm: 98,
+        timbre: "banjo_harp",
+        // G - Em7 - Cmaj7 - D6
+        chords: [
+          [196.00, 246.94, 293.66],
+          [164.81, 196.00, 246.94, 293.66],
+          [130.81, 164.81, 196.00, 246.94],
+          [146.83, 185.00, 220.00, 246.94]
+        ],
+        melody: [392.00, 493.88, 587.33, 523.25, 493.88, 440.00, 392.00, 329.63]
       }
     ];
 
     let currentTrackIdx = 0;
     let isPlaying = false;
-    let currentSec = 45;
+    let currentSec = 0;
     let playerTimer = null;
+    let musicStepTimer = null;
+    let musicMasterGain = null;
+    let musicVolume = 0.65;
+    let musicStep = 0;
+
+    function ensureMusicMaster() {
+      const ctx = getAudioCtx();
+      if (!musicMasterGain) {
+        musicMasterGain = ctx.createGain();
+        musicMasterGain.gain.setValueAtTime(musicVolume * 0.35, ctx.currentTime);
+        musicMasterGain.connect(ctx.destination);
+      }
+      return musicMasterGain;
+    }
+
+    function setMusicVolume(val) {
+      musicVolume = val / 100;
+      if (musicMasterGain && audioCtx) {
+        musicMasterGain.gain.setTargetAtTime(musicVolume * 0.35, audioCtx.currentTime, 0.05);
+      }
+    }
+
+    function playNote(freq, duration, type = 'sine', gainPeak = 0.18, attack = 0.04) {
+      if (!isPlaying) return;
+      const ctx = getAudioCtx();
+      const master = ensureMusicMaster();
+      const now = ctx.currentTime;
+
+      const osc = ctx.createOscillator();
+      const filter = ctx.createBiquadFilter();
+      const env = ctx.createGain();
+
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, now);
+
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(type === 'triangle' ? 1800 : 1200, now);
+
+      env.gain.setValueAtTime(0.0001, now);
+      env.gain.linearRampToValueAtTime(gainPeak, now + attack);
+      env.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+      osc.connect(filter);
+      filter.connect(env);
+      env.connect(master);
+
+      osc.start(now);
+      osc.stop(now + duration + 0.05);
+    }
+
+    function startMusicSynth() {
+      stopMusicSynth();
+      const track = tracks[currentTrackIdx];
+      const stepMs = Math.round((60 / track.bpm / 2) * 1000); // eighth-note steps
+
+      const tick = () => {
+        if (!isPlaying) return;
+        const chordIdx = Math.floor(musicStep / 4) % track.chords.length;
+        const chord = track.chords[chordIdx];
+        const melNote = track.melody[musicStep % track.melody.length];
+
+        if (musicStep % 4 === 0) {
+          // Play warm chord pad on beat 1 of bar
+          const padType = track.timbre === 'dream_synth' ? 'triangle' : 'sine';
+          chord.forEach(f => playNote(f, (stepMs * 4) / 1000, padType, 0.14, 0.18));
+        }
+
+        if (track.timbre === 'acoustic_pluck' || track.timbre === 'banjo_harp') {
+          // Arpeggiate chord notes + melody
+          const arpNote = chord[musicStep % chord.length] * 2;
+          playNote(arpNote, 0.55, 'triangle', 0.13, 0.015);
+          if (musicStep % 2 === 0) {
+            playNote(melNote, 0.75, 'sine', 0.16, 0.02);
+          }
+        } else if (track.timbre === 'dream_synth') {
+          playNote(melNote, 1.1, 'triangle', 0.15, 0.12);
+        } else {
+          // warm_pad
+          if (musicStep % 2 === 0) {
+            playNote(melNote, 0.9, 'sine', 0.17, 0.06);
+          }
+        }
+
+        musicStep++;
+      };
+
+      tick();
+      musicStepTimer = setInterval(tick, stepMs);
+    }
+
+    function stopMusicSynth() {
+      clearInterval(musicStepTimer);
+      musicStepTimer = null;
+    }
 
     function formatTime(s) {
       const m = Math.floor(s / 60);
@@ -896,8 +1066,10 @@
     function selectTrack(idx) {
       currentTrackIdx = idx;
       currentSec = 0;
+      musicStep = 0;
       isPlaying = true;
       startProgressTimer();
+      startMusicSynth();
       updatePlayerUI();
     }
 
@@ -905,8 +1077,10 @@
       isPlaying = !isPlaying;
       if (isPlaying) {
         startProgressTimer();
+        startMusicSynth();
       } else {
         clearInterval(playerTimer);
+        stopMusicSynth();
       }
       updatePlayerUI();
     }
@@ -941,12 +1115,16 @@
     function nextTrack() {
       currentTrackIdx = (currentTrackIdx + 1) % tracks.length;
       currentSec = 0;
+      musicStep = 0;
+      if (isPlaying) startMusicSynth();
       updatePlayerUI();
     }
 
     function prevTrack() {
       currentTrackIdx = (currentTrackIdx - 1 + tracks.length) % tracks.length;
       currentSec = 0;
+      musicStep = 0;
+      if (isPlaying) startMusicSynth();
       updatePlayerUI();
     }
 
@@ -1049,43 +1227,243 @@
       btn.classList.toggle('text-red-400');
     }
 
-    // --- Web Audio Synth Ambient ---
-    let audioCtx = null;
-    let isAmbientPlaying = false;
-    let ambientGain = null;
+    // --- Multi-Preset Web Audio Ambient Soundscapes ---
+    const ambientPresets = [
+      { id: 'waves', name: 'Ombak Pantai Malam', icon: 'waves', desc: 'Debur ombak tenang di Starlight Coast' },
+      { id: 'rain', name: 'Hujan di Kafe', icon: 'rainy', desc: 'Rintik hujan lembut di balik kaca' },
+      { id: 'cosmic', name: 'Ruang Angkasa Kosmik', icon: 'auto_awesome', desc: 'Harmoni pad nebula 174Hz' },
+      { id: 'campfire', name: 'Api Unggun Malam', icon: 'local_fire_department', desc: 'Gemercik kayu hangat di tepi pantai' },
+      { id: 'wind', name: 'Angin Lembah Pinus', icon: 'air', desc: 'Hembusan angin malam pegunungan' }
+    ];
 
-    function toggleAmbient() {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    let activeAmbientId = null;
+    let ambientMasterGain = null;
+    let ambientNodes = [];
+    let ambientIntervals = [];
+    let ambientVolume = 0.55;
+
+    function toggleAmbientMenu() {
+      document.getElementById('ambient-menu').classList.toggle('hidden');
+    }
+
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('ambient-menu');
+      const btn = document.getElementById('ambient-btn');
+      if (menu && !menu.classList.contains('hidden') && !menu.contains(e.target) && !btn.contains(e.target)) {
+        menu.classList.add('hidden');
       }
-      isAmbientPlaying = !isAmbientPlaying;
-      const icon = document.getElementById('ambient-icon');
-      const label = document.getElementById('ambient-label');
+    });
 
-      if (isAmbientPlaying) {
-        const osc = audioCtx.createOscillator();
-        ambientGain = audioCtx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(174, audioCtx.currentTime);
-        ambientGain.gain.setValueAtTime(0.04, audioCtx.currentTime);
-        osc.connect(ambientGain);
-        ambientGain.connect(audioCtx.destination);
-        osc.start();
-        icon.classList.add('animate-pulse');
-        label.textContent = "Ambient Aktif";
+    function renderAmbientList() {
+      const list = document.getElementById('ambient-list');
+      if (!list) return;
+      list.innerHTML = ambientPresets.map(p => {
+        const active = p.id === activeAmbientId;
+        return `
+        <button onclick="selectAmbient('${p.id}')" class="w-full text-left p-2.5 rounded-xl border transition-all flex items-center justify-between gap-2 ${active ? 'bg-blue-600/25 border-blue-500/60 text-white' : 'bg-white/5 border-white/5 hover:bg-white/10 text-slate-300'}">
+          <div class="flex items-center gap-2.5">
+            <span class="material-symbols-outlined text-[18px] ${active ? 'text-blue-400 animate-pulse' : 'text-slate-400'}">${p.icon}</span>
+            <div>
+              <div class="text-xs font-semibold">${p.name}</div>
+              <div class="text-[10px] text-slate-400">${p.desc}</div>
+            </div>
+          </div>
+          ${active ? '<span class="w-2 h-2 rounded-full bg-blue-400"></span>' : ''}
+        </button>`;
+      }).join('');
+    }
+
+    function createNoiseBuffer(ctx, type = 'pink') {
+      const bufferSize = ctx.sampleRate * 3;
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const output = buffer.getChannelData(0);
+      if (type === 'brown') {
+        let lastOut = 0.0;
+        for (let i = 0; i < bufferSize; i++) {
+          const white = Math.random() * 2 - 1;
+          output[i] = (lastOut + (0.02 * white)) / 1.02;
+          lastOut = output[i];
+          output[i] *= 3.2;
+        }
       } else {
-        if (ambientGain) ambientGain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.1);
-        icon.classList.remove('animate-pulse');
-        label.textContent = "Ambient";
+        let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+        for (let i = 0; i < bufferSize; i++) {
+          const white = Math.random() * 2 - 1;
+          b0 = 0.99886 * b0 + white * 0.0555179;
+          b1 = 0.99332 * b1 + white * 0.0750759;
+          b2 = 0.96900 * b2 + white * 0.1538520;
+          b3 = 0.86650 * b3 + white * 0.3104856;
+          b4 = 0.55000 * b4 + white * 0.5329522;
+          b5 = -0.7616 * b5 - white * 0.0168980;
+          output[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.11;
+          b6 = white * 0.115926;
+        }
       }
+      return buffer;
+    }
+
+    function stopAmbient() {
+      ambientNodes.forEach(n => {
+        try { if (n.stop) n.stop(); } catch (_) {}
+        try { if (n.disconnect) n.disconnect(); } catch (_) {}
+      });
+      ambientNodes = [];
+      ambientIntervals.forEach(id => clearInterval(id));
+      ambientIntervals = [];
+      activeAmbientId = null;
+
+      document.getElementById('ambient-icon').classList.remove('animate-pulse');
+      document.getElementById('ambient-label').textContent = 'Ambient';
+      document.getElementById('ambient-stop-btn').classList.add('hidden');
+
+      memoryAudioActive = false;
+      document.getElementById('memory-audio-icon').textContent = 'play_circle';
+      document.getElementById('memory-audio-label').textContent = 'Dengarkan Suasana Malam';
+      renderAmbientList();
+    }
+
+    function setAmbientVolume(val) {
+      ambientVolume = val / 100;
+      if (ambientMasterGain && audioCtx) {
+        ambientMasterGain.gain.setTargetAtTime(ambientVolume * 0.5, audioCtx.currentTime, 0.05);
+      }
+    }
+
+    function selectAmbient(id) {
+      if (activeAmbientId === id) {
+        stopAmbient();
+        return;
+      }
+      stopAmbient();
+
+      const ctx = getAudioCtx();
+      activeAmbientId = id;
+      ambientMasterGain = ctx.createGain();
+      ambientMasterGain.gain.setValueAtTime(ambientVolume * 0.5, ctx.currentTime);
+      ambientMasterGain.connect(ctx.destination);
+      ambientNodes.push(ambientMasterGain);
+
+      if (id === 'waves') {
+        const src = ctx.createBufferSource();
+        src.buffer = createNoiseBuffer(ctx, 'brown');
+        src.loop = true;
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.value = 420;
+        const lfo = ctx.createOscillator();
+        const lfoGain = ctx.createGain();
+        lfo.frequency.value = 0.13; // wave swell
+        lfoGain.gain.value = 260;
+        lfo.connect(lfoGain);
+        lfoGain.connect(filter.frequency);
+        src.connect(filter);
+        filter.connect(ambientMasterGain);
+        src.start();
+        lfo.start();
+        ambientNodes.push(src, filter, lfo, lfoGain);
+      } else if (id === 'rain') {
+        const src = ctx.createBufferSource();
+        src.buffer = createNoiseBuffer(ctx, 'pink');
+        src.loop = true;
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.value = 1100;
+        filter.Q.value = 0.6;
+        const rainGain = ctx.createGain();
+        rainGain.gain.value = 0.55;
+        src.connect(filter);
+        filter.connect(rainGain);
+        rainGain.connect(ambientMasterGain);
+        src.start();
+        ambientNodes.push(src, filter, rainGain);
+      } else if (id === 'cosmic') {
+        [174, 261.63, 392.0].forEach((freq, i) => {
+          const osc = ctx.createOscillator();
+          osc.type = i === 0 ? 'sine' : 'triangle';
+          osc.frequency.value = freq;
+          const filter = ctx.createBiquadFilter();
+          filter.type = 'lowpass';
+          filter.frequency.value = 600;
+          const g = ctx.createGain();
+          g.gain.value = i === 0 ? 0.12 : 0.05;
+          osc.connect(filter);
+          filter.connect(g);
+          g.connect(ambientMasterGain);
+          osc.start();
+          ambientNodes.push(osc, filter, g);
+        });
+      } else if (id === 'campfire') {
+        const src = ctx.createBufferSource();
+        src.buffer = createNoiseBuffer(ctx, 'brown');
+        src.loop = true;
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.value = 280;
+        const g = ctx.createGain();
+        g.gain.value = 0.65;
+        src.connect(filter);
+        filter.connect(g);
+        g.connect(ambientMasterGain);
+        src.start();
+        ambientNodes.push(src, filter, g);
+
+        // Random subtle wood crackles
+        const crackleId = setInterval(() => {
+          if (activeAmbientId !== 'campfire') return;
+          const now = ctx.currentTime;
+          const osc = ctx.createOscillator();
+          const cg = ctx.createGain();
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(1400 + Math.random() * 1800, now);
+          cg.gain.setValueAtTime(0.06 * Math.random(), now);
+          cg.gain.exponentialRampToValueAtTime(0.0001, now + 0.035);
+          osc.connect(cg);
+          cg.connect(ambientMasterGain);
+          osc.start(now);
+          osc.stop(now + 0.04);
+        }, 280);
+        ambientIntervals.push(crackleId);
+      } else if (id === 'wind') {
+        const src = ctx.createBufferSource();
+        src.buffer = createNoiseBuffer(ctx, 'pink');
+        src.loop = true;
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.value = 500;
+        filter.Q.value = 2.2;
+        const lfo = ctx.createOscillator();
+        const lfoGain = ctx.createGain();
+        lfo.frequency.value = 0.18;
+        lfoGain.gain.value = 240;
+        lfo.connect(lfoGain);
+        lfoGain.connect(filter.frequency);
+        src.connect(filter);
+        filter.connect(ambientMasterGain);
+        src.start();
+        lfo.start();
+        ambientNodes.push(src, filter, lfo, lfoGain);
+      }
+
+      const preset = ambientPresets.find(p => p.id === id);
+      document.getElementById('ambient-icon').classList.add('animate-pulse');
+      document.getElementById('ambient-label').textContent = preset ? preset.name : 'Ambient Aktif';
+      document.getElementById('ambient-stop-btn').classList.remove('hidden');
+
+      if (id === 'waves') {
+        memoryAudioActive = true;
+        document.getElementById('memory-audio-icon').textContent = 'pause_circle';
+        document.getElementById('memory-audio-label').textContent = 'Ombak Pantai Aktif...';
+      }
+      renderAmbientList();
     }
 
     let memoryAudioActive = false;
     function toggleMemoryAudio() {
-      memoryAudioActive = !memoryAudioActive;
-      document.getElementById('memory-audio-icon').textContent = memoryAudioActive ? 'pause_circle' : 'play_circle';
-      document.getElementById('memory-audio-label').textContent = memoryAudioActive ? 'Sedang Memutar Suasana...' : 'Dengarkan Suasana Malam';
-      toggleAmbient();
+      if (activeAmbientId === 'waves') {
+        stopAmbient();
+      } else {
+        selectAmbient('waves');
+      }
     }
 
     // --- 3D Keepsake Tilt ---
@@ -1106,6 +1484,7 @@
     renderTimeline();
     renderGallery();
     renderPlaylist();
+    renderAmbientList();
     updatePlayerUI();
   </script>
 </body>
