@@ -446,10 +446,30 @@
             “Kita mendengarkan lagu ini sambil menatap lampu-lampu mobil di jalan tol pesisir pada jam 2 pagi.”
           </div>
 
-          <button onclick="togglePlayPause()" class="mt-2 px-6 py-2.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex items-center gap-2 shadow-lg shadow-blue-600/30 transition-all">
-            <span class="material-symbols-outlined text-[18px]" id="spotlight-play-icon">play_arrow</span>
-            <span id="spotlight-play-label">Putar Melodi Ini</span>
-          </button>
+          <!-- Official Spotify Embed Player (Real Original Song Audio) -->
+          <div id="spotify-embed-wrap" class="w-full mt-2 rounded-2xl overflow-hidden border border-white/10 shadow-lg">
+            <iframe id="spotify-embed" style="border-radius:12px" src="https://open.spotify.com/embed/track/3AJwUDP919kvQ9QcozQPxg?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+          </div>
+
+          <!-- Local MP3 Play Controls (shown when user uploads local MP3) -->
+          <div id="local-player-controls" class="hidden w-full mt-3 flex items-center justify-center gap-3">
+            <button onclick="togglePlayPause()" class="px-6 py-2.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex items-center gap-2 shadow-lg shadow-blue-600/30 transition-all">
+              <span class="material-symbols-outlined text-[18px]" id="spotlight-play-icon">play_arrow</span>
+              <span id="spotlight-play-label">Putar Lagu MP3</span>
+            </button>
+          </div>
+
+          <div class="mt-4 flex flex-wrap items-center justify-center gap-2">
+            <a id="spotify-direct-link" href="https://open.spotify.com/track/3AJwUDP919kvQ9QcozQPxg" target="_blank" class="px-4 py-1.5 rounded-full bg-[#1DB954]/20 hover:bg-[#1DB954]/30 border border-[#1DB954]/40 text-[#1DB954] text-xs font-semibold flex items-center gap-1.5 transition-all">
+              <span class="material-symbols-outlined text-[16px]">open_in_new</span>
+              <span>Buka di Spotify</span>
+            </a>
+            <label class="px-4 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/15 text-slate-200 text-xs font-medium flex items-center gap-1.5 cursor-pointer transition-all" title="Tambahkan file MP3 dari perangkat Anda">
+              <span class="material-symbols-outlined text-[16px] text-blue-400">upload_file</span>
+              <span>Tambah MP3 Lokal</span>
+              <input type="file" id="local-audio-input" accept="audio/*" multiple class="hidden" onchange="handleLocalAudioUpload(event)"/>
+            </label>
+          </div>
         </div>
 
         <!-- Right: Playlist Items -->
@@ -584,6 +604,9 @@
       </div>
     </div>
   </footer>
+
+  <!-- Real HTML5 Audio Element (100% synced for local MP3 files) -->
+  <audio id="real-audio" preload="metadata"></audio>
 
   <!-- FLOATING BOTTOM MUSIC PLAYER BAR -->
   <aside id="floating-player" class="fixed bottom-4 left-4 right-4 max-w-3xl mx-auto z-40 glass-surface glass-surface-glow rounded-2xl p-3 border border-blue-500/30 flex items-center justify-between gap-4">
@@ -857,7 +880,7 @@
       return audioCtx;
     }
 
-    // --- Music Data & Polyphonic Synthesizer ---
+    // --- Music Data (Official Spotify Tracks + Local MP3 HTML5 Audio) ---
     const tracks = [
       {
         title: "Yellow",
@@ -865,18 +888,9 @@
         album: "Parachutes",
         cover: "./assets/asset_5.jpg",
         story: "Kita mendengarkan lagu ini sambil menatap lampu-lampu mobil di jalan tol pesisir pada jam 2 pagi.",
-        seconds: 269,
         duration: "4:29",
-        bpm: 86,
-        timbre: "warm_pad",
-        // B major warm indie progression: B - F# - E - B
-        chords: [
-          [246.94, 311.13, 369.99],
-          [185.00, 233.08, 277.18],
-          [164.81, 207.65, 246.94],
-          [246.94, 311.13, 369.99]
-        ],
-        melody: [493.88, 466.16, 369.99, 466.16, 493.88, 369.99, 329.63, 369.99]
+        spotifyId: "3AJwUDP919kvQ9QcozQPxg",
+        localUrl: null
       },
       {
         title: "Space Song",
@@ -884,18 +898,9 @@
         album: "Depression Cherry",
         cover: "./assets/asset_6.jpg",
         story: "Alunan synth melayang yang menemani perjalanan pertama kita menuju bukit observatorium.",
-        seconds: 320,
         duration: "5:20",
-        bpm: 74,
-        timbre: "dream_synth",
-        // Eb major7 - Cm7 - Fm7 - Bb7 dreamy progression
-        chords: [
-          [155.56, 196.00, 233.08, 293.66],
-          [130.81, 155.56, 196.00, 233.08],
-          [174.61, 207.65, 261.63, 311.13],
-          [233.08, 293.66, 349.23, 415.30]
-        ],
-        melody: [466.16, 392.00, 466.16, 587.33, 523.25, 466.16, 392.00, 349.23]
+        spotifyId: "7H0ya83CMmgFcOhw0UB6ow",
+        localUrl: null
       },
       {
         title: "Sparks",
@@ -903,18 +908,9 @@
         album: "Acoustic Memories",
         cover: "./assets/asset_7.jpg",
         story: "Petikan gitar akustik lembut yang selalu mengingatkanku pada suara hujan rintik di kaca jendela.",
-        seconds: 227,
         duration: "3:47",
-        bpm: 78,
-        timbre: "acoustic_pluck",
-        // C#m7 - A - E - B acoustic arpeggio
-        chords: [
-          [138.59, 164.81, 207.65, 246.94],
-          [110.00, 138.59, 164.81, 220.00],
-          [164.81, 207.65, 246.94, 329.63],
-          [123.47, 155.56, 185.00, 246.94]
-        ],
-        melody: [329.63, 415.30, 493.88, 415.30, 369.99, 329.63, 277.18, 329.63]
+        spotifyId: "7D0RhF68GlifWysfaMC9MI",
+        localUrl: null
       },
       {
         title: "Mystery of Love",
@@ -922,121 +918,63 @@
         album: "Call Me By Your Name",
         cover: "./assets/asset_8.jpg",
         story: "Nada banjo hangat di sore musim panas menikmati es krim gelato di pinggir kanal.",
-        seconds: 248,
         duration: "4:08",
-        bpm: 98,
-        timbre: "banjo_harp",
-        // G - Em7 - Cmaj7 - D6
-        chords: [
-          [196.00, 246.94, 293.66],
-          [164.81, 196.00, 246.94, 293.66],
-          [130.81, 164.81, 196.00, 246.94],
-          [146.83, 185.00, 220.00, 246.94]
-        ],
-        melody: [392.00, 493.88, 587.33, 523.25, 493.88, 440.00, 392.00, 329.63]
+        spotifyId: "5HNHhlfrreCWGfdffg0PW0",
+        localUrl: null
       }
     ];
 
+    const realAudio = document.getElementById('real-audio');
     let currentTrackIdx = 0;
     let isPlaying = false;
-    let currentSec = 0;
-    let playerTimer = null;
-    let musicStepTimer = null;
-    let musicMasterGain = null;
-    let musicVolume = 0.65;
-    let musicStep = 0;
+    realAudio.volume = 0.65;
 
-    function ensureMusicMaster() {
-      const ctx = getAudioCtx();
-      if (!musicMasterGain) {
-        musicMasterGain = ctx.createGain();
-        musicMasterGain.gain.setValueAtTime(musicVolume * 0.35, ctx.currentTime);
-        musicMasterGain.connect(ctx.destination);
+    // Sync progress bar & timer directly with HTML5 <audio>
+    realAudio.addEventListener('timeupdate', () => {
+      if (!realAudio.duration || isNaN(realAudio.duration)) return;
+      const pct = (realAudio.currentTime / realAudio.duration) * 100;
+      document.getElementById('time-curr').textContent = formatTime(realAudio.currentTime);
+      document.getElementById('time-dur').textContent = formatTime(realAudio.duration);
+      document.getElementById('player-progress-bar').style.width = `${pct}%`;
+    });
+
+    realAudio.addEventListener('loadedmetadata', () => {
+      if (realAudio.duration && !isNaN(realAudio.duration)) {
+        document.getElementById('time-dur').textContent = formatTime(realAudio.duration);
       }
-      return musicMasterGain;
-    }
+    });
+
+    realAudio.addEventListener('ended', () => {
+      nextTrack();
+    });
 
     function setMusicVolume(val) {
-      musicVolume = val / 100;
-      if (musicMasterGain && audioCtx) {
-        musicMasterGain.gain.setTargetAtTime(musicVolume * 0.35, audioCtx.currentTime, 0.05);
-      }
+      realAudio.volume = Math.max(0, Math.min(1, val / 100));
     }
 
-    function playNote(freq, duration, type = 'sine', gainPeak = 0.18, attack = 0.04) {
-      if (!isPlaying) return;
-      const ctx = getAudioCtx();
-      const master = ensureMusicMaster();
-      const now = ctx.currentTime;
-
-      const osc = ctx.createOscillator();
-      const filter = ctx.createBiquadFilter();
-      const env = ctx.createGain();
-
-      osc.type = type;
-      osc.frequency.setValueAtTime(freq, now);
-
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(type === 'triangle' ? 1800 : 1200, now);
-
-      env.gain.setValueAtTime(0.0001, now);
-      env.gain.linearRampToValueAtTime(gainPeak, now + attack);
-      env.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-
-      osc.connect(filter);
-      filter.connect(env);
-      env.connect(master);
-
-      osc.start(now);
-      osc.stop(now + duration + 0.05);
-    }
-
-    function startMusicSynth() {
-      stopMusicSynth();
-      const track = tracks[currentTrackIdx];
-      const stepMs = Math.round((60 / track.bpm / 2) * 1000); // eighth-note steps
-
-      const tick = () => {
-        if (!isPlaying) return;
-        const chordIdx = Math.floor(musicStep / 4) % track.chords.length;
-        const chord = track.chords[chordIdx];
-        const melNote = track.melody[musicStep % track.melody.length];
-
-        if (musicStep % 4 === 0) {
-          // Play warm chord pad on beat 1 of bar
-          const padType = track.timbre === 'dream_synth' ? 'triangle' : 'sine';
-          chord.forEach(f => playNote(f, (stepMs * 4) / 1000, padType, 0.14, 0.18));
-        }
-
-        if (track.timbre === 'acoustic_pluck' || track.timbre === 'banjo_harp') {
-          // Arpeggiate chord notes + melody
-          const arpNote = chord[musicStep % chord.length] * 2;
-          playNote(arpNote, 0.55, 'triangle', 0.13, 0.015);
-          if (musicStep % 2 === 0) {
-            playNote(melNote, 0.75, 'sine', 0.16, 0.02);
-          }
-        } else if (track.timbre === 'dream_synth') {
-          playNote(melNote, 1.1, 'triangle', 0.15, 0.12);
-        } else {
-          // warm_pad
-          if (musicStep % 2 === 0) {
-            playNote(melNote, 0.9, 'sine', 0.17, 0.06);
-          }
-        }
-
-        musicStep++;
-      };
-
-      tick();
-      musicStepTimer = setInterval(tick, stepMs);
-    }
-
-    function stopMusicSynth() {
-      clearInterval(musicStepTimer);
-      musicStepTimer = null;
+    function handleLocalAudioUpload(event) {
+      const files = Array.from(event.target.files || []);
+      if (!files.length) return;
+      let firstNewIdx = tracks.length;
+      files.forEach(file => {
+        const cleanName = file.name.replace(/\.[^/.]+$/, "");
+        const url = URL.createObjectURL(file);
+        tracks.push({
+          title: cleanName,
+          artist: "File Audio Lokal",
+          album: "Perangkat Anda",
+          cover: "./assets/asset_9.jpg",
+          story: "Lagu pilihan yang Anda tambahkan langsung dari perangkat Anda.",
+          duration: "--:--",
+          spotifyId: null,
+          localUrl: url
+        });
+      });
+      selectTrack(firstNewIdx);
     }
 
     function formatTime(s) {
+      if (!s || isNaN(s)) return "0:00";
       const m = Math.floor(s / 60);
       const rem = Math.floor(s % 60);
       return `${m}:${rem < 10 ? '0' : ''}${rem}`;
@@ -1049,7 +987,10 @@
           <div class="flex items-center gap-3">
             <img src="${t.cover}" alt="${t.title}" class="w-12 h-12 rounded-xl object-cover"/>
             <div>
-              <h4 class="font-bold text-sm text-white">${t.title}</h4>
+              <div class="flex items-center gap-2">
+                <h4 class="font-bold text-sm text-white">${t.title}</h4>
+                <span class="text-[9px] px-1.5 py-0.5 rounded ${t.localUrl ? 'bg-blue-500/20 text-blue-300' : 'bg-[#1DB954]/20 text-[#1DB954]'} font-semibold">${t.localUrl ? 'MP3' : 'Spotify'}</span>
+              </div>
               <p class="text-xs text-slate-400">${t.artist} • ${t.album}</p>
             </div>
           </div>
@@ -1065,67 +1006,57 @@
 
     function selectTrack(idx) {
       currentTrackIdx = idx;
-      currentSec = 0;
-      musicStep = 0;
-      isPlaying = true;
-      startProgressTimer();
-      startMusicSynth();
-      updatePlayerUI();
+      const track = tracks[currentTrackIdx];
+      if (track.localUrl) {
+        realAudio.src = track.localUrl;
+        realAudio.currentTime = 0;
+        realAudio.play().then(() => {
+          isPlaying = true;
+          updatePlayerUI();
+        }).catch(() => {
+          isPlaying = false;
+          updatePlayerUI();
+        });
+      } else {
+        realAudio.pause();
+        realAudio.removeAttribute('src');
+        isPlaying = false;
+        updatePlayerUI();
+        document.getElementById('music').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     }
 
     function togglePlayPause() {
-      isPlaying = !isPlaying;
-      if (isPlaying) {
-        startProgressTimer();
-        startMusicSynth();
-      } else {
-        clearInterval(playerTimer);
-        stopMusicSynth();
-      }
-      updatePlayerUI();
-    }
-
-    function startProgressTimer() {
-      clearInterval(playerTimer);
-      playerTimer = setInterval(() => {
-        if (!isPlaying) return;
-        currentSec++;
-        if (currentSec >= tracks[currentTrackIdx].seconds) {
-          nextTrack();
-        } else {
-          updateProgressBarOnly();
-        }
-      }, 1000);
-    }
-
-    function updateProgressBarOnly() {
       const track = tracks[currentTrackIdx];
-      const pct = Math.min(100, (currentSec / track.seconds) * 100);
-      document.getElementById('time-curr').textContent = formatTime(currentSec);
-      document.getElementById('player-progress-bar').style.width = `${pct}%`;
+      if (track.localUrl) {
+        if (realAudio.paused) {
+          realAudio.play();
+          isPlaying = true;
+        } else {
+          realAudio.pause();
+          isPlaying = false;
+        }
+        updatePlayerUI();
+      } else {
+        // Scroll to official Spotify embed so user can press play directly inside Spotify player
+        document.getElementById('spotify-embed-wrap').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     }
 
     function seekAudio(e) {
+      const track = tracks[currentTrackIdx];
+      if (!track.localUrl || !realAudio.duration || isNaN(realAudio.duration)) return;
       const rect = e.currentTarget.getBoundingClientRect();
       const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-      currentSec = Math.floor(ratio * tracks[currentTrackIdx].seconds);
-      updateProgressBarOnly();
+      realAudio.currentTime = ratio * realAudio.duration;
     }
 
     function nextTrack() {
-      currentTrackIdx = (currentTrackIdx + 1) % tracks.length;
-      currentSec = 0;
-      musicStep = 0;
-      if (isPlaying) startMusicSynth();
-      updatePlayerUI();
+      selectTrack((currentTrackIdx + 1) % tracks.length);
     }
 
     function prevTrack() {
-      currentTrackIdx = (currentTrackIdx - 1 + tracks.length) % tracks.length;
-      currentSec = 0;
-      musicStep = 0;
-      if (isPlaying) startMusicSynth();
-      updatePlayerUI();
+      selectTrack((currentTrackIdx - 1 + tracks.length) % tracks.length);
     }
 
     function updatePlayerUI() {
@@ -1140,8 +1071,30 @@
       document.getElementById('spotlight-title').textContent = track.title;
       document.getElementById('spotlight-artist').textContent = `${track.artist} • ${track.album}`;
       document.getElementById('spotlight-story').textContent = `“${track.story}”`;
-      document.getElementById('spotlight-play-icon').textContent = isPlaying ? 'pause' : 'play_arrow';
-      document.getElementById('spotlight-play-label').textContent = isPlaying ? 'Jeda Melodi' : 'Putar Melodi Ini';
+
+      const spotifyWrap = document.getElementById('spotify-embed-wrap');
+      const spotifyIframe = document.getElementById('spotify-embed');
+      const spotifyLink = document.getElementById('spotify-direct-link');
+      const localControls = document.getElementById('local-player-controls');
+
+      if (track.spotifyId) {
+        spotifyWrap.classList.remove('hidden');
+        spotifyLink.classList.remove('hidden');
+        localControls.classList.add('hidden');
+        const targetSrc = `https://open.spotify.com/embed/track/${track.spotifyId}?utm_source=generator&theme=0`;
+        if (spotifyIframe.src !== targetSrc) {
+          spotifyIframe.src = targetSrc;
+        }
+        spotifyLink.href = `https://open.spotify.com/track/${track.spotifyId}`;
+        document.getElementById('time-curr').textContent = "0:00";
+        document.getElementById('player-progress-bar').style.width = "0%";
+      } else {
+        spotifyWrap.classList.add('hidden');
+        spotifyLink.classList.add('hidden');
+        localControls.classList.remove('hidden');
+        document.getElementById('spotlight-play-icon').textContent = isPlaying ? 'pause' : 'play_arrow';
+        document.getElementById('spotlight-play-label').textContent = isPlaying ? 'Jeda Lagu MP3' : 'Putar Lagu MP3';
+      }
 
       const vinyl = document.getElementById('vinyl-disc');
       if (isPlaying) {
@@ -1151,7 +1104,6 @@
         vinyl.classList.remove('animate-spin');
       }
 
-      updateProgressBarOnly();
       renderPlaylist();
     }
 
